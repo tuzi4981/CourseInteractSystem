@@ -97,7 +97,7 @@ public class LoginDBManager {
             ContentValues cv = new ContentValues();
             cv.put("password", person.password);
             String[] args = {person.account};
-            db.update(LoginDatabaseHelpter.Login_TABLE_NAME,cv,"account = ?",args);
+            db.update(LoginDatabaseHelpter.Login_TABLE_NAME, cv, "account = ?", args);
             db.setTransactionSuccessful(); // 设置事务成功完成
         } finally {
             db.endTransaction(); // 结束事务
@@ -135,8 +135,7 @@ public class LoginDBManager {
      */
     public Cursor getQueryCursor()
     {
-        Cursor c = db.rawQuery("SELECT * FROM " + LoginDatabaseHelpter.Login_TABLE_NAME,
-                null);
+        Cursor c = db.rawQuery("SELECT * FROM " + LoginDatabaseHelpter.Login_TABLE_NAME, null);
         return c;
     }
 
@@ -189,10 +188,53 @@ public class LoginDBManager {
             qes.setQes_content(c.getString(c.getColumnIndex("qes_content")));
             qes.setQes_choose(c.getString(c.getColumnIndex("qes_choose")));
             qes.setQes_type(c.getInt(c.getColumnIndex("qes_type")));
+            qes.setQes_teacher(c.getString(c.getColumnIndex("qes_teacher")));
+            qes.setQes_class(c.getInt(c.getColumnIndex("qes_class")));
             questions.add(qes);
         }
         c.close();
         return questions;
     }
 
+    /**
+     * 根据所属班级查询到属于这个班级的所有题目
+     * @param qes_class
+     * @return
+     */
+    public List<question> queryQuestionsFromClass(int qes_class){
+        ArrayList<question> questions = new ArrayList<question>();
+        Cursor c = getQuestionQueryCursor();
+        while (c.moveToNext())
+        {
+            question qes = new question();
+            if (qes_class == c.getColumnIndex("qes_class")){
+                qes.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+                qes.setQes_content(c.getString(c.getColumnIndex("qes_content")));
+                qes.setQes_choose(c.getString(c.getColumnIndex("qes_choose")));
+                qes.setQes_type(c.getInt(c.getColumnIndex("qes_type")));
+                qes.setQes_teacher(c.getString(c.getColumnIndex("qes_teacher")));
+                qes.setQes_class(c.getInt(c.getColumnIndex("qes_class")));
+                questions.add(qes);
+            }
+        }
+        c.close();
+        return questions;
+    }
+
+    /**
+     * 插入一条数据到question表
+     * 用于教师提交问题
+     * @param qes
+     */
+    public void insertQuestion(question qes){
+        db.beginTransaction(); // 开始事务
+        try {
+            db.execSQL("INSERT INTO " + LoginDatabaseHelpter.Question_TABLE_NAME
+                    + " VALUES(?, ?, ?, ?, ?, ?)", new Object[]{qes.getQes_id(), qes.getQes_content(), qes.getQes_choose(), qes.getQes_type(), qes.getQes_class(), qes.getQes_teacher()});
+
+            db.setTransactionSuccessful(); // 设置事务成功完成
+        } finally {
+            db.endTransaction(); // 结束事务
+        }
+    }
 }

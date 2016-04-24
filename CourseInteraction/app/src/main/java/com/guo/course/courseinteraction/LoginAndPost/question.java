@@ -1,13 +1,15 @@
 package com.guo.course.courseinteraction.LoginAndPost;
 
 /**
- * 作者： 谢波 on 2016/4/24 002421:17
+ * 作者： 郭明亮 on 2016/4/24 002421:17
  */
 public class question {
     private String qes_id;
     private String qes_content;
     private String qes_choose;
     private int qes_type;
+    private int qes_class;
+    private String qes_teacher;
 
     public question() {
     }
@@ -18,7 +20,6 @@ public class question {
         this.qes_choose = qes_choose;
         this.qes_type = qes_type;
     }
-
     public String getQes_id() {
         return qes_id;
     }
@@ -51,5 +52,19 @@ public class question {
         this.qes_type = qes_type;
     }
 
+    public int getQes_class() {
+        return qes_class;
+    }
 
+    public void setQes_class(int qes_class) {
+        this.qes_class = qes_class;
+    }
+
+    public String getQes_teacher() {
+        return qes_teacher;
+    }
+
+    public void setQes_teacher(String qes_teacher) {
+        this.qes_teacher = qes_teacher;
+    }
 }
