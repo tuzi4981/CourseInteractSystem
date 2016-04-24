@@ -14,12 +14,12 @@ import java.util.List;
  * 作者： 郭明亮 on 2016/4/17 001719:19
  */
 public class LoginDBManager {
-    private LoginDatabaseHelpter login_helper;
+    private LoginDatabaseHelpter db_helper;
     private SQLiteDatabase db;
 
     public LoginDBManager(Context context){
-        login_helper = new LoginDatabaseHelpter(context);
-        db = login_helper.getWritableDatabase();
+        db_helper = new LoginDatabaseHelpter(context);
+        db = db_helper.getWritableDatabase();
     }
 
     /**
@@ -161,6 +161,38 @@ public class LoginDBManager {
             }
         }
         return null;
+    }
+
+    /**
+     * query all persons, return cursor
+     *
+     * @return Cursor
+     */
+    public Cursor getQuestionQueryCursor()
+    {
+        Cursor c = db.rawQuery("SELECT * FROM " + LoginDatabaseHelpter.Question_TABLE_NAME,
+                null);
+        return c;
+    }
+
+    /**
+     * 返回所有的question
+     * @return
+     */
+    public List<question> queryAllQuestion(){
+        ArrayList<question> questions = new ArrayList<question>();
+        Cursor c = getQuestionQueryCursor();
+        while (c.moveToNext())
+        {
+            question qes = new question();
+            qes.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+            qes.setQes_content(c.getString(c.getColumnIndex("qes_content")));
+            qes.setQes_choose(c.getString(c.getColumnIndex("qes_choose")));
+            qes.setQes_type(c.getInt(c.getColumnIndex("qes_type")));
+            questions.add(qes);
+        }
+        c.close();
+        return questions;
     }
 
 }

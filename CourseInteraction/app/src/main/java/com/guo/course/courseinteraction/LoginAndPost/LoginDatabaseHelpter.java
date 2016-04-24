@@ -15,7 +15,8 @@ public class LoginDatabaseHelpter extends SQLiteOpenHelper {
 
     // 数据表名
     public static final String Login_TABLE_NAME = "UserTable";
-
+    public static final String Question_TABLE_NAME = "QuestionTable";
+    public static final String Answer_TABLE_NAME = "AnswerTable";
 
     public LoginDatabaseHelpter(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -31,10 +32,15 @@ public class LoginDatabaseHelpter extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        StringBuffer sBuffer = new StringBuffer();
-        sBuffer.append("CREATE TABLE " + Login_TABLE_NAME + " (account varchar(30) primary key,password varchar(30),user_name varchar(30),user_class int,email varchar(30),user_type int)");
+        StringBuffer SQL_LoginTable = new StringBuffer();
+        StringBuffer SQL_QuestionTable = new StringBuffer();
+        StringBuffer SQL_AnswerTable = new StringBuffer();
+        SQL_LoginTable.append("CREATE TABLE " + Login_TABLE_NAME + " (account varchar(30) not null primary key,password varchar(30),user_name varchar(30),user_class int,email varchar(30),user_type int)");
+        SQL_QuestionTable.append("CREATE TABLE " + Question_TABLE_NAME + " (qes_id varchar(30) not null primary key,qes_content varchar(100),qes_choose varchar(30),qes_type int)");
+        SQL_AnswerTable.append("CREATE TABLE " + Answer_TABLE_NAME + " (account varchar(30) not null, qes_id varchar(30) not null, qes_time varchar(30), primary key(account,qes_id)");
         // 执行创建表的SQL语句
-        db.execSQL(sBuffer.toString());
+        db.execSQL(SQL_LoginTable.toString());
+
     }
 
     @Override
