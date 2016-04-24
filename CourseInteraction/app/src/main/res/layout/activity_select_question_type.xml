@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.guo.course.courseinteraction.SelectQuestionTypeActivity">
+    <Button
+        android:id="@+id/activity_select_question_type_btn_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn_orange"
+        android:text="选择题"/>
+    <Button
+        android:id="@+id/activity_select_question_type_btn_shortanswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_orange"
+        android:text="简答题"/>
+</LinearLayout>

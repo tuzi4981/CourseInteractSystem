@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/background_dark"
+    tools:context="com.guo.course.courseinteraction.MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_weight="4">
+
+        <ImageView
+            android:id="@+id/main_iv_self"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/main_self"
+            android:clickable="true"
+            android:layout_weight="2"
+            android:text="个人"/>
+
+        <ImageView
+            android:id="@+id/main_iv_qiandao"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:background="@mipmap/main_qiandao"
+            android:layout_weight="2"
+            android:text="签到"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_weight="4">
+
+        <ImageView
+            android:id="@+id/main_iv_question"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/main_question"
+            android:clickable="true"
+            android:layout_weight="2"
+            android:text="答题"/>
+
+        <ImageView
+            android:id="@+id/main_iv_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:background="@mipmap/main_setting"
+            android:layout_weight="2"
+            android:text="设置"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_weight="4">
+
+        <ImageView
+            android:id="@+id/main_iv_author"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/main_author"
+            android:clickable="true"
+            android:layout_weight="2"
+            android:text="关于作者"/>
+
+        <ImageView
+            android:id="@+id/main_iv_exitlogin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:background="@mipmap/main_exit_login"
+            android:layout_weight="2"
+            android:text="退出登录"/>
+
+    </LinearLayout>
+</LinearLayout>
