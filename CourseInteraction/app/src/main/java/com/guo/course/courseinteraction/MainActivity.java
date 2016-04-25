@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (user_type == STUDENT) {
                     Intent intent = new Intent(MainActivity.this, AnswerForStudentActivity.class);
+                    intent.putExtra("account", account);
                     startActivity(intent);
                 } else if (user_type == TEACHER) {
                     show_select_dialog();

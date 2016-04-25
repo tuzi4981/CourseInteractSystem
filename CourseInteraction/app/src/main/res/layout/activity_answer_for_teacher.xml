@@ -13,10 +13,17 @@
         android:orientation="vertical">
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:singleLine="true"
             android:hint="请填写题目"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="请填写内容"/>
         <LinearLayout
             android:id="@+id/activity_answerforteacher_ll_chooser"
             android:layout_width="match_parent"
@@ -97,6 +104,7 @@
         </LinearLayout>
     </LinearLayout>
     <Button
+        android:id="@+id/activity_answerforteacher_btn_commit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_btn_orange"

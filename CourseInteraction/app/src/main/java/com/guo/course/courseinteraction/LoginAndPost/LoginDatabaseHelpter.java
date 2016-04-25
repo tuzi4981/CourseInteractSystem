@@ -43,18 +43,20 @@ public class LoginDatabaseHelpter extends SQLiteOpenHelper {
                 "email varchar(30)," +
                 "user_type int)");
         SQL_QuestionTable.append("CREATE TABLE " + Question_TABLE_NAME +
-                " (qes_id varchar(30) not null primary key," +
+                " (qes_id integer primary key AUTOINCREMENT," +
+                "qes_title varchar(30), " +
                 "qes_content varchar(100)," +
                 "qes_choose varchar(30)," +
                 "qes_type int," +
                 "qes_class int" +
-                "qes_teacher)");
+                "qes_teacher varchar(30))");
         SQL_AnswerTable.append("CREATE TABLE " + Answer_TABLE_NAME +
                 " (account varchar(30) not null, " +
                 "qes_id varchar(30) not null, " +
                 "qes_time varchar(30), " +
-                "primary key(account,qes_id)" +
-                "qes_class int)");
+                "qes_class int, " +
+                "qes_answer varchar(30), " +
+                "primary key(account,qes_id))" );
         // 执行创建表的SQL语句
         db.execSQL(SQL_LoginTable.toString());
         db.execSQL(SQL_QuestionTable.toString());
@@ -64,6 +66,8 @@ public class LoginDatabaseHelpter extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Login_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Question_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Answer_TABLE_NAME);
         onCreate(db);
     }
     @Override

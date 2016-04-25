@@ -5,6 +5,7 @@ package com.guo.course.courseinteraction.LoginAndPost;
  */
 public class question {
     private String qes_id;
+    private String qes_title;
     private String qes_content;
     private String qes_choose;
     private int qes_type;
@@ -26,6 +27,14 @@ public class question {
 
     public void setQes_id(String qes_id) {
         this.qes_id = qes_id;
+    }
+
+    public String getQes_title() {
+        return qes_title;
+    }
+
+    public void setQes_title(String qes_title) {
+        this.qes_title = qes_title;
     }
 
     public String getQes_content() {

@@ -10,6 +10,9 @@ import android.view.WindowManager;
 
 public class SelectQuestionTypeActivity extends AppCompatActivity {
 
+    private static final int QUESTION_CHOOSE = 0;
+    private static final int QUESTION_TEXT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,7 @@ public class SelectQuestionTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SelectQuestionTypeActivity.this, AnswerForTeacherActivity.class);
+                intent.putExtra("qes_type", QUESTION_CHOOSE);
                 startActivity(intent);
                 finish();
             }
@@ -38,6 +42,7 @@ public class SelectQuestionTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SelectQuestionTypeActivity.this, AnswerForTeacherActivity.class);
+                intent.putExtra("qes_type", QUESTION_TEXT);
                 startActivity(intent);
                 finish();
             }
