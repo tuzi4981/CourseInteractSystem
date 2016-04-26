@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SelectQuestionTypeActivity.class);
+                intent.putExtra("account", account);
                 startActivity(intent);
                 dialog_teacher_select.dismiss();
             }
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, QueryAnswerActivity.class);
+                intent.putExtra("account", account);
                 startActivity(intent);
                 dialog_teacher_select.dismiss();
             }

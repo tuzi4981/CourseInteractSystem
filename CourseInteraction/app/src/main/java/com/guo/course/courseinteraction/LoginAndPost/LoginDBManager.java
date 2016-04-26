@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.guo.course.courseinteraction.SignCalendar.DatabaseHelper;
 
@@ -163,7 +164,7 @@ public class LoginDBManager {
     }
 
     /**
-     * query all persons, return cursor
+     * query all questions, return cursor
      *
      * @return Cursor
      */
@@ -184,7 +185,7 @@ public class LoginDBManager {
         while (c.moveToNext())
         {
             question qes = new question();
-            qes.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+            qes.setQes_id(c.getInt(c.getColumnIndex("qes_id")));
             qes.setQes_content(c.getString(c.getColumnIndex("qes_content")));
             qes.setQes_choose(c.getString(c.getColumnIndex("qes_choose")));
             qes.setQes_type(c.getInt(c.getColumnIndex("qes_type")));
@@ -208,8 +209,9 @@ public class LoginDBManager {
         while (c.moveToNext())
         {
             question qes = new question();
-            if (qes_class == c.getColumnIndex("qes_class")){
-                qes.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+            if (qes_class == c.getInt(c.getColumnIndex("qes_class"))){
+                qes.setQes_id(c.getInt(c.getColumnIndex("qes_id")));
+                qes.setQes_title(c.getString(c.getColumnIndex("qes_title")));
                 qes.setQes_content(c.getString(c.getColumnIndex("qes_content")));
                 qes.setQes_choose(c.getString(c.getColumnIndex("qes_choose")));
                 qes.setQes_type(c.getInt(c.getColumnIndex("qes_type")));
@@ -227,14 +229,14 @@ public class LoginDBManager {
      * @param qes_id
      * @return
      */
-    public question queryQuestionFromid(String qes_id){
+    public question queryQuestionFromid(int qes_id){
         question qes = new question();
         Cursor c = getQuestionQueryCursor();
         while (c.moveToNext())
         {
-            String temp_qesid = c.getString(c.getColumnIndex("qes_id"));
-            if (temp_qesid.equals(qes_id)){
-                qes.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+            int temp_qesid = c.getInt(c.getColumnIndex("qes_id"));
+            if (temp_qesid == qes_id){
+                qes.setQes_id(c.getInt(c.getColumnIndex("qes_id")));
                 qes.setQes_title(c.getString(c.getColumnIndex("qes_title")));
                 qes.setQes_content(c.getString(c.getColumnIndex("qes_content")));
                 qes.setQes_choose(c.getString(c.getColumnIndex("qes_choose")));
@@ -251,11 +253,12 @@ public class LoginDBManager {
      * 用于教师提交问题
      * @param qes
      */
-    public void insertQuestion(question qes){
+    public void addQuestion(question qes){
         db.beginTransaction(); // 开始事务
         try {
             db.execSQL("INSERT INTO " + LoginDatabaseHelpter.Question_TABLE_NAME
-                    + " VALUES(?, ?, ?, ?, ?, ?)", new Object[]{qes.getQes_id(), qes.getQes_content(), qes.getQes_choose(), qes.getQes_type(), qes.getQes_class(), qes.getQes_teacher()});
+                    +"(qes_title, qes_content, qes_choose, qes_type, qes_class, qes_teacher)" + " VALUES(?, ?, ?, ?, ?, ?)",
+                    new Object[]{qes.getQes_title(), qes.getQes_content(), qes.getQes_choose(), qes.getQes_type(), qes.getQes_class(), qes.getQes_teacher()});
 
             db.setTransactionSuccessful(); // 设置事务成功完成
         } finally {
@@ -286,7 +289,7 @@ public class LoginDBManager {
         {
             answer ans = new answer();
             ans.setAccount(c.getString(c.getColumnIndex("account")));
-            ans.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+            ans.setQes_id(c.getInt(c.getColumnIndex("qes_id")));
             ans.setAns_answer(c.getString(c.getColumnIndex("ans_time")));
             ans.setAns_class(c.getInt(c.getColumnIndex("ans_class")));
             ans.setAns_time(c.getString(c.getColumnIndex("ans_answer")));
@@ -302,15 +305,15 @@ public class LoginDBManager {
      * @param qesid
      * @return
      */
-    public answer queryAnswerFromaccount_and_qesid(String account, String qesid){
+    public answer queryAnswerFromaccount_and_qesid(String account, int qesid){
         answer ans = new answer();
         Cursor c = getAnswerQueryCursor();
         while (c.moveToNext())
         {
             String temp_account = c.getString(c.getColumnIndex("account"));
-            String temp_qesid = c.getString(c.getColumnIndex("qes_id"));
-            if (temp_account.equals(account) && temp_qesid.equals(qesid)){
-                ans.setQes_id(c.getString(c.getColumnIndex("qes_id")));
+            int temp_qesid = c.getInt(c.getColumnIndex("qes_id"));
+            if (temp_account.equals(account) && temp_qesid == qesid){
+                ans.setQes_id(c.getInt(c.getColumnIndex("qes_id")));
                 ans.setAccount(c.getString(c.getColumnIndex("account")));
                 ans.setAns_answer(c.getString(c.getColumnIndex("ans_answer")));
                 ans.setAns_class(c.getInt(c.getColumnIndex("ans_class")));
@@ -319,6 +322,31 @@ public class LoginDBManager {
             }
         }
         return null;
+    }
+
+    /**
+     * 根据所属班级查询到属于这个班级学生提交的所有题目答案
+     * 用于教师查询属于该班级学生提交的答案
+     * @param ans_class
+     * @return
+     */
+    public List<answer> queryAnswersFromClass(int ans_class){
+        ArrayList<answer> answers = new ArrayList<answer>();
+        Cursor c = getAnswerQueryCursor();
+        while (c.moveToNext())
+        {
+            answer ans = new answer();
+            if (ans_class == c.getInt(c.getColumnIndex("ans_class"))){
+                ans.setAccount(c.getString(c.getColumnIndex("account")));
+                ans.setQes_id(c.getInt(c.getColumnIndex("qes_id")));
+                ans.setAns_time(c.getString(c.getColumnIndex("ans_time")));
+                ans.setAns_class(c.getInt(c.getColumnIndex("ans_class")));
+                ans.setAns_answer(c.getString(c.getColumnIndex("ans_answer")));
+                answers.add(ans);
+            }
+        }
+        c.close();
+        return answers;
     }
 
     /**

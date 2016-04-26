@@ -2,12 +2,14 @@ package com.guo.course.courseinteraction;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guo.course.courseinteraction.LoginAndPost.LoginDBManager;
 import com.guo.course.courseinteraction.LoginAndPost.answer;
@@ -21,7 +23,7 @@ public class QuestionDetailForStudentActivity extends AppCompatActivity {
     private static final int QUESTION_CHOOSE = 0;
     private static final int QUESTION_TEXT = 1;
     private String account;
-    private String qesid;
+    private int qesid;
     private String qestitle;
     private String qescontent;
     private String qeschoose;
@@ -44,7 +46,8 @@ public class QuestionDetailForStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail_for_student);
         account = getIntent().getStringExtra("account");
-        qesid = getIntent().getStringExtra("qesid");
+        qesid = getIntent().getIntExtra("qesid", 0);
+        Log.i("QuesDetailForStudent", "qesid=" + qesid);
 
         loginDBManager = new LoginDBManager(this);
 
@@ -92,46 +95,73 @@ public class QuestionDetailForStudentActivity extends AppCompatActivity {
         activity_questiondetailforstudent_rg_choose.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.i("QuesDetailForStudent", "checkId="+checkedId);
                 switch (checkedId){
-                    case 0:
+                    case R.id.activity_questiondetailforstudent_rb_A:
                         qesanswer = "A";
+                        Log.i("QuesDetailForStudent", "qesanswer=" + qesanswer);
                         break;
-                    case 1:
+                    case R.id.activity_questiondetailforstudent_rb_B:
                         qesanswer = "B";
+                        Log.i("QuesDetailForStudent", "qesanswer=" + qesanswer);
                         break;
-                    case 2:
+                    case R.id.activity_questiondetailforstudent_rb_C:
                         qesanswer = "C";
+                        Log.i("QuesDetailForStudent", "qesanswer=" + qesanswer);
                         break;
-                    case 3:
+                    case R.id.activity_questiondetailforstudent_rb_D:
                         qesanswer = "D";
+                        Log.i("QuesDetailForStudent", "qesanswer=" + qesanswer);
                         break;
                 }
             }
         });
-        //"确认提交"按钮
+        //"提交答案"按钮
         findViewById(R.id.activity_questiondetailforstudent_btn_commit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //提交学生填写的答案到答题表
-                if (qestype == QUESTION_CHOOSE) {
-
-                } else if (qestype == QUESTION_TEXT) {
-                    qesanswer = activity_questiondetailforstudent_et_answer_text.getText().toString().trim();
+                //TODO:根据题目的ID和学号判断该学生是否已经提交过该题目
+                if (accountIsComitted(account, qesid))
+                {
+                    Toast.makeText(QuestionDetailForStudentActivity.this, "你已经提交过该题目的答案", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                answer ans = new answer();
-                ans.setAccount(account);
-                ans.setQes_id(qesid);
-
-                SimpleDateFormat formatter = new SimpleDateFormat    ("yyyy-MM-dd");
-                Date curDate =   new Date(System.currentTimeMillis());//获取当前时间
-                String str = formatter.format(curDate);
-
-                ans.setAns_time(str);
-                ans.setAns_class(qesclass);
-                ans.setAns_answer(qesanswer);
-                loginDBManager.addAnswer(ans);
+                addToAnswer();
+                finish();
+                Toast.makeText(QuestionDetailForStudentActivity.this, "答案提交成功", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    private boolean accountIsComitted(String account, int qesid) {
+        answer answer = loginDBManager.queryAnswerFromaccount_and_qesid(account, qesid);
+        if (answer == null){
+            return false;
+        }
+        return true;
+    }
+
+    private void addToAnswer() {
+        Log.i("QuesDetailForStudent", "qestype="+qestype);
+        if (qestype == QUESTION_CHOOSE) {
+
+        } else if (qestype == QUESTION_TEXT) {
+            qesanswer = activity_questiondetailforstudent_et_answer_text.getText().toString().trim();
+        }
+        answer ans = new answer();
+        ans.setAccount(account);
+        ans.setQes_id(qesid);
+
+        SimpleDateFormat formatter = new SimpleDateFormat    ("yyyy-MM-dd");
+        Date curDate =   new Date(System.currentTimeMillis());//获取当前时间
+        String str = formatter.format(curDate);
+
+        ans.setAns_time(str);
+        ans.setAns_class(qesclass);
+        ans.setAns_answer(qesanswer);
+        Log.i("QuesDetailForStudent", "qesanswer=" + qesanswer);
+        loginDBManager.addAnswer(ans);
     }
 }

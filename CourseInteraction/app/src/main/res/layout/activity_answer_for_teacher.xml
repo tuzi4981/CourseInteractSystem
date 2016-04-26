@@ -12,6 +12,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <EditText
+            android:id="@+id/activity_answerforteacher_et_title"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
@@ -19,6 +20,7 @@
             android:singleLine="true"
             android:hint="请填写题目"/>
         <EditText
+            android:id="@+id/activity_answerforteacher_et_content"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginLeft="10dp"

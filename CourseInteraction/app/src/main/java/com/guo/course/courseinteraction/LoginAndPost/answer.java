@@ -5,7 +5,7 @@ package com.guo.course.courseinteraction.LoginAndPost;
  */
 public class answer {
     private String account;
-    private String qes_id;
+    private int qes_id;
     private String ans_time;
     private int ans_class;
     private String ans_answer;
@@ -13,7 +13,7 @@ public class answer {
     public answer() {
     }
 
-    public answer(String account, String ans_answer, int ans_class, String ans_time, String qes_id) {
+    public answer(String account, String ans_answer, int ans_class, String ans_time, Integer qes_id) {
         this.account = account;
         this.ans_answer = ans_answer;
         this.ans_class = ans_class;
@@ -53,11 +53,11 @@ public class answer {
         this.ans_time = ans_time;
     }
 
-    public String getQes_id() {
+    public int getQes_id() {
         return qes_id;
     }
 
-    public void setQes_id(String qes_id) {
+    public void setQes_id(int qes_id) {
         this.qes_id = qes_id;
     }
 }

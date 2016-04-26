@@ -52,10 +52,10 @@ public class LoginDatabaseHelpter extends SQLiteOpenHelper {
                 "qes_teacher varchar(30))");
         SQL_AnswerTable.append("CREATE TABLE " + Answer_TABLE_NAME +
                 " (account varchar(30) not null, " +
-                "qes_id varchar(30) not null, " +
-                "qes_time varchar(30), " +
-                "qes_class int, " +
-                "qes_answer varchar(30), " +
+                "qes_id int not null, " +
+                "ans_time varchar(30), " +
+                "ans_class int, " +
+                "ans_answer varchar(30), " +
                 "primary key(account,qes_id))" );
         // 执行创建表的SQL语句
         db.execSQL(SQL_LoginTable.toString());

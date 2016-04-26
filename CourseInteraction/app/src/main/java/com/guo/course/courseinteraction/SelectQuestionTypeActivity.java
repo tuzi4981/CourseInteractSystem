@@ -13,11 +13,13 @@ public class SelectQuestionTypeActivity extends AppCompatActivity {
     private static final int QUESTION_CHOOSE = 0;
     private static final int QUESTION_TEXT = 1;
 
+    private String account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(R.layout.activity_select_question_type);
+        account = getIntent().getStringExtra("account");
 
         InitView();
     }
@@ -33,6 +35,7 @@ public class SelectQuestionTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SelectQuestionTypeActivity.this, AnswerForTeacherActivity.class);
                 intent.putExtra("qes_type", QUESTION_CHOOSE);
+                intent.putExtra("account", account);
                 startActivity(intent);
                 finish();
             }
@@ -43,6 +46,7 @@ public class SelectQuestionTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SelectQuestionTypeActivity.this, AnswerForTeacherActivity.class);
                 intent.putExtra("qes_type", QUESTION_TEXT);
+                intent.putExtra("account", account);
                 startActivity(intent);
                 finish();
             }

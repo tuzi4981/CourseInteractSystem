@@ -4,7 +4,7 @@ package com.guo.course.courseinteraction.LoginAndPost;
  * 作者： 郭明亮 on 2016/4/24 002421:17
  */
 public class question {
-    private String qes_id;
+    private Integer qes_id;
     private String qes_title;
     private String qes_content;
     private String qes_choose;
@@ -15,17 +15,17 @@ public class question {
     public question() {
     }
 
-    public question(String qes_id, String qes_content, String qes_choose, int qes_type) {
+    public question(Integer qes_id, String qes_content, String qes_choose, int qes_type) {
         this.qes_id = qes_id;
         this.qes_content = qes_content;
         this.qes_choose = qes_choose;
         this.qes_type = qes_type;
     }
-    public String getQes_id() {
+    public Integer getQes_id() {
         return qes_id;
     }
 
-    public void setQes_id(String qes_id) {
+    public void setQes_id(Integer qes_id) {
         this.qes_id = qes_id;
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +31,9 @@ public class AnswerForStudentActivity extends AppCompatActivity {
     private ListView activity_answerforstudent_lv_question;
     private List<question> list_questions = new ArrayList<question>();
 
-    //-------------数据库-------------
     private String account;
+
+    //-------------数据库-------------
     private LoginDBManager loginDBManager;
     //-------------------------------
 
@@ -40,9 +42,13 @@ public class AnswerForStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(R.layout.activity_answer_for_student);
+
         account = getIntent().getStringExtra("account");
 
+        Log.i("AnswerForStudent", "account="+account);
+
         loginDBManager = new LoginDBManager(this);
+
         init_list_questions();
 
         InitView();
@@ -51,8 +57,9 @@ public class AnswerForStudentActivity extends AppCompatActivity {
     private void init_list_questions() {
         //从数据库中查到属于该学生所属班级的所有题目，更新list_questions
         user person = loginDBManager.queryFromAccount(account);
-
+        Log.i("AnswerForStudent", "person.user_class="+person.user_class);
         list_questions = loginDBManager.queryQuestionsFromClass(person.user_class);
+        Log.i("AnswerForStudent", "list_question.size()="+list_questions.size());
     }
 
     private void InitView() {
@@ -66,16 +73,17 @@ public class AnswerForStudentActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 question qes = list_questions.get(position);
-                String qesid = qes.getQes_id();
+                int qesid = qes.getQes_id();
                 //得到了题目的id之后跳转到下个界面，显示该id对应题目的所有信息
                 enterToQuestionDetailforStudent(qesid);
             }
         });
     }
 
-    private void enterToQuestionDetailforStudent(String qesid) {
+    private void enterToQuestionDetailforStudent(int qesid) {
         Intent intent = new Intent(AnswerForStudentActivity.this, QuestionDetailForStudentActivity.class);
         intent.putExtra("qesid", qesid);
+        Log.i("AnswerForStudent", "qesid=" + qesid);
         intent.putExtra("account", account);
         startActivity(intent);
         finish();
@@ -130,7 +138,7 @@ public class AnswerForStudentActivity extends AppCompatActivity {
         }
 
         //绘制Item的函数
-        private View makeItemView(String qes_id, String qes_title, String qes_teacher) {
+        private View makeItemView(int qes_id, String qes_title, String qes_teacher) {
             LayoutInflater inflater = (LayoutInflater) AnswerForStudentActivity.this
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -139,7 +147,7 @@ public class AnswerForStudentActivity extends AppCompatActivity {
 
             // 通过findViewById()方法实例R.layout.item内各组件
             TextView listitem_answerforstudent_qesid = (TextView) itemView.findViewById(R.id.listitem_answerforstudent_qesid);
-            listitem_answerforstudent_qesid.setText(qes_id);    //填入相应的值
+            listitem_answerforstudent_qesid.setText(qes_id+"");
             TextView listitem_answerforstudent_qestitle = (TextView) itemView.findViewById(R.id.listitem_answerforstudent_qestitle);
             listitem_answerforstudent_qestitle.setText(qes_title);
             TextView listitem_answerforstudent_qesteacher = (TextView) itemView.findViewById(R.id.listitem_answerforstudent_qesteacher);
