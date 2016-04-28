@@ -1,9 +1,11 @@
 package com.guo.course.courseinteraction;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -44,6 +46,7 @@ public class QuestionDetailForStudentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(R.layout.activity_question_detail_for_student);
         account = getIntent().getStringExtra("account");
         qesid = getIntent().getIntExtra("qesid", 0);
@@ -66,6 +69,10 @@ public class QuestionDetailForStudentActivity extends AppCompatActivity {
     }
 
     private void InitView() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("答题");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         activity_questiondetailforstudent_tv_title = (TextView) findViewById(R.id.activity_questiondetailforstudent_tv_title);
         activity_questiondetailforstudent_tv_qescontent = (TextView) findViewById(R.id.activity_questiondetailforstudent_tv_qescontent);
         activity_questiondetailforstudent_ll_answer_text = (LinearLayout) findViewById(R.id.activity_questiondetailforstudent_ll_answer_text);

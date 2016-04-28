@@ -1,14 +1,17 @@
 package com.guo.course.courseinteraction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,6 +63,24 @@ public class QueryAnswerActivity extends AppCompatActivity {
 
         activity_queryanswer_lv_answer = (ListView) findViewById(R.id.activity_queryanswer_lv_answer);
         activity_queryanswer_lv_answer.setAdapter(new ListViewAdapter(list_answers));
+        activity_queryanswer_lv_answer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                answer ans = list_answers.get(position);
+                int qesid = ans.getQes_id();
+                //得到了题目的id之后跳转到下个界面，显示该id对应题目的所有信息
+//                enterToQuestionDetailforStudent(qesid);
+            }
+        });
+    }
+
+    private void enterToQuestionDetailforStudent(int qesid) {
+        Intent intent = new Intent(QueryAnswerActivity.this, QuestionDetailForTeacherActivity.class);
+        intent.putExtra("qesid", qesid);
+        Log.i("QueryAnswerActivity", "qesid=" + qesid);
+        intent.putExtra("account", account);
+        startActivity(intent);
+        finish();
     }
 
 

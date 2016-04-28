@@ -33,7 +33,8 @@
         <activity android:name=".AnswerForTeacherActivity" />
         <activity android:name=".QueryAnswerActivity" />
         <activity android:name=".SelectQuestionTypeActivity" />
-        <activity android:name=".QuestionDetailForStudentActivity"></activity>
+        <activity android:name=".QuestionDetailForStudentActivity" />
+        <activity android:name=".QuestionDetailForTeacherActivity"></activity>
     </application>
 
 </manifest>
